@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">SR大师</string>
+
+    <string name="please_permit_yourself">请自行授予</string>
+
+    <string name="preview">预览</string>
+
+    <string name="info">关于</string>
+    <string name="no_app">无可用程序</string>
+
+    <string name="compare">对比</string>
+
+    <string name="select">选取</string>
+    <string name="no_select">未选取</string>
+    <string name="select_success">选取成功</string>
+    <string name="select_fail">选取失败\n%s</string>
+
+    <string name="run">运行</string>
+    <string name="no_input">未输入</string>
+    <string name="run_success">运行成功</string>
+    <string name="run_fail">运行失败\n%s</string>
+
+    <string name="save">保存</string>
+    <string name="save_success">保存成功</string>
+    <string name="save_fail">保存失败\n%s</string>
+</resources>
