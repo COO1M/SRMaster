@@ -16,6 +16,7 @@ import java.io.FileOutputStream
 
 object FileUtil {
 
+    @Suppress("DEPRECATION")
     fun uri2bitmap(uri: Uri): Bitmap {
         val context = App.context
         val bitmap = if (Build.VERSION.SDK_INT >= 28) {
