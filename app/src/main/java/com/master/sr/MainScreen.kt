@@ -2,15 +2,15 @@ package com.master.sr
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
@@ -18,6 +18,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -32,29 +34,21 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
             .fillMaxSize()
             .navigationBarsPadding()
     ) {
-        val (text_preview, progress, btn_info, btn_compare, btn_select, btn_run, btn_save) = createRefs()
+        val (progress, btn_info, btn_compare, btn_select, btn_run, btn_save) = createRefs()
         createHorizontalChain(btn_select, btn_run, btn_save, chainStyle = ChainStyle.Packed)
 
-        //Placeholder Text
-        if (!uiState.loading) {
-            Text(
-                text = stringResource(R.string.preview),
-                modifier = Modifier.constrainAs(text_preview) {
-                    centerTo(parent)
-                }
-            )
-        }
-
         //Preview Image
-        if (if (uiState.comparing) uiState.startBmp != null else uiState.endBmp != null) {
-            Image(
-                bitmap = (if (uiState.comparing) uiState.startBmp else uiState.endBmp)!!.asImageBitmap(),
-                contentDescription = stringResource(R.string.preview),
-                modifier = Modifier.fillMaxSize()
-            )
-        }
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(if (uiState.comparing) uiState.startBmp else uiState.endBmp)
+                .crossfade(200)
+                .build(),
+            contentDescription = stringResource(R.string.preview),
+            error = painterResource(R.drawable.ic_baseline_crop_free),
+            modifier = Modifier.fillMaxSize()
+        )
 
-        //Placeholder Progress
+        //Loading Progress
         if (uiState.loading) {
             CircularProgressIndicator(
                 modifier = Modifier.constrainAs(progress) {
@@ -84,7 +78,8 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 .constrainAs(btn_compare) {
                     top.linkTo(btn_info.bottom, 20.dp)
                     start.linkTo(btn_info.start)
-                },
+                }
+                .rotate(if (!uiState.comparing) 180f else 0f),
             onClick = { viewModel.compare() }
         )
 
