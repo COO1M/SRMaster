@@ -44,7 +44,7 @@ class MainViewModel : ViewModel() {
                     _uiState.update { it.copy(loading = false, comparing = true) }
                 }
             }.onFailure {
-                XUtil.tw(XUtil.stringRes(R.string.select_fail, it.message.toString()))
+                XUtil.tw(XUtil.stringRes(R.string.select_fail, "${it.message}"))
             }.onSuccess {
                 XUtil.tw(XUtil.stringRes(R.string.select_success))
             }
@@ -63,7 +63,7 @@ class MainViewModel : ViewModel() {
                     _uiState.update { it.copy(loading = false, comparing = false) }
                 }
             }.onFailure {
-                XUtil.tw(XUtil.stringRes(R.string.run_fail, it.message.toString()))
+                XUtil.tw(XUtil.stringRes(R.string.run_fail, "${it.message}"))
             }.onSuccess {
                 XUtil.tw(XUtil.stringRes(R.string.run_success))
             }
@@ -81,7 +81,7 @@ class MainViewModel : ViewModel() {
                     _uiState.update { it.copy(loading = false, comparing = false) }
                 }
             }.onFailure {
-                XUtil.tw(XUtil.stringRes(R.string.save_fail, it.message.toString()))
+                XUtil.tw(XUtil.stringRes(R.string.save_fail, "${it.message}"))
             }.onSuccess {
                 XUtil.tw(XUtil.stringRes(R.string.save_success))
             }
