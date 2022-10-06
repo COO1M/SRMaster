@@ -23,4 +23,22 @@
     <string name="save">保存</string>
     <string name="save_success">保存成功</string>
     <string name="save_fail">保存失败\n%s</string>
+
+    <string name="info_content">
+        <![CDATA[
+        <h3>使用说明</h3>
+        <strong>选取：</strong>
+        选择要进行增强的图片。建议800*800像素以下，超过800像素会先压缩再进行增强，因为手机性能受限。<br><br>
+        <strong>运行：</strong>
+        开始进行增强，请等待几秒或至1分钟，取决于手机性能和图片的细节复杂度。<br><br>
+        <strong>保存：</strong>
+        保存到手机 “根目录/Pictures/SRMaster” 目录。<br><br>
+        <strong>对比：</strong>
+        切换预览增强前后的图片。<br><br>
+        <strong>帮助：</strong>
+        提供使用说明。<br><br>
+        <h3>支持</h3>
+        <a href="https://coolm.cc">官方网站</a>
+        ]]>
+    </string>
 </resources>
