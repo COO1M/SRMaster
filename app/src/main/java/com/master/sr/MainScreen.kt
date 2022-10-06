@@ -59,7 +59,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
         //About ImageButton
         ImgBtn(
-            iconId = R.drawable.ic_baseline_language,
+            iconId = R.drawable.ic_baseline_contact_support,
             labelId = R.string.info,
             modifier = Modifier
                 .constrainAs(btn_info) {
