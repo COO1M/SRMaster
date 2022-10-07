@@ -1,4 +1,4 @@
-package com.master.sr
+package com.master.sr.view
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

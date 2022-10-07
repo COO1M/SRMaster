@@ -10,7 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import com.master.sr.App
+import com.master.sr.app.App
 import java.io.File
 import java.io.FileOutputStream
 

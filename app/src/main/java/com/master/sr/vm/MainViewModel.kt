@@ -1,11 +1,13 @@
-package com.master.sr
+package com.master.sr.vm
 
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.master.sr.R
 import com.master.sr.utils.FileUtil
 import com.master.sr.utils.TorchUtil
+import com.master.sr.utils.XUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,15 +19,6 @@ class MainViewModel : ViewModel() {
 
     private var _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.asStateFlow()
-
-    //About ImageButton Event
-    fun urlGo() {
-        kotlin.runCatching {
-            XUtil.goUrl()
-        }.onFailure {
-            XUtil.tw(XUtil.stringRes(R.string.no_app))
-        }
-    }
 
     //Compare ImageButton Event
     fun compare() {

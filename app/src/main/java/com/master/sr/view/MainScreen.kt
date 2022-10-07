@@ -1,4 +1,4 @@
-package com.master.sr
+package com.master.sr.view
 
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
@@ -31,6 +31,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.master.sr.R
+import com.master.sr.vm.MainViewModel
 import kotlinx.coroutines.launch
 
 
@@ -38,7 +40,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(viewModel: MainViewModel = viewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
+    )
     val scope = rememberCoroutineScope()
     val selectPicture = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         viewModel.select(it)

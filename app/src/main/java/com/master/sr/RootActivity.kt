@@ -9,6 +9,8 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.master.sr.ui.AppTheme
+import com.master.sr.utils.XUtil
+import com.master.sr.view.MainScreen
 
 class RootActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

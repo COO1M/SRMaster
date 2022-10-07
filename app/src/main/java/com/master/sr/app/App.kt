@@ -1,4 +1,4 @@
-package com.master.sr
+package com.master.sr.app
 
 import android.app.Application
 import android.content.Context

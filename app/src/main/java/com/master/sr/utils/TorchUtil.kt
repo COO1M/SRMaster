@@ -1,7 +1,7 @@
 package com.master.sr.utils
 
 import android.graphics.Bitmap
-import com.master.sr.App
+import com.master.sr.app.App
 import org.pytorch.IValue
 import org.pytorch.LiteModuleLoader
 import org.pytorch.torchvision.TensorImageUtils
