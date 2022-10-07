@@ -26,7 +26,7 @@
 
     <string name="info_content">
         <![CDATA[
-        <h3>使用说明</h3>
+        <h3>功能说明</h3>
         <strong>选取：</strong>选择要增强的图片。建议800*800像素以下，超过800像素会先压缩再增强，手机性能有限。<br><br>
         <strong>运行：</strong>开始AI增强，请等待几秒或几十秒不等。速度取决于手机性能和图片复杂度，效果取决于图片细节留存度。<br><br>
         <strong>保存：</strong>保存到“根目录/Pictures/SRMaster”文件夹。<br><br>
@@ -35,8 +35,8 @@
         <strong>最低：</strong>Android 5.0，CPU armeabi-v7a(32位)<br>
         <strong>推荐：</strong>Android 9.0，CPU arm64-v8a(64位)
         <h3>支持</h3>
-        <a href="https://coolm.cc/product/2">官方网站</a>
-        <a href="https://github.com/COO1M/SRMaster">Github(已开源)<a/>
+        官方网站<a href="https://coolm.cc/product/2">https://coolm.cc/product/2</a><br>
+        项目地址<a href="https://github.com/COO1M/SRMaster">https://github.com/COO1M/SRMaster<a/>
         ]]>
     </string>
 </resources>
