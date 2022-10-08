@@ -4,15 +4,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.graphics.Matrix
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.graphics.scale
 import com.master.sr.app.App
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.math.sqrt
 
 object FileUtil {
 
@@ -27,12 +28,10 @@ object FileUtil {
         }
         val width = bitmap.width
         val height = bitmap.height
-        val maxSide = maxOf(width, height)
-        return if (maxSide > 800) {
-            val matrix = Matrix()
-            val scale = 800f / maxSide
-            matrix.setScale(scale, scale)
-            Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
+        val pixelCount = width * height
+        return if (pixelCount > 500000) {
+            val scaleFactor = sqrt(pixelCount / 500000.0)
+            bitmap.scale((width / scaleFactor).toInt(), (height / scaleFactor).toInt())
         } else {
             bitmap
         }
