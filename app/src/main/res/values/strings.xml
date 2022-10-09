@@ -27,7 +27,7 @@
     <string name="info_content">
         <![CDATA[
         <h3>功能说明</h3>
-        <strong>选取：</strong>选择要增强的图片。建议800*800像素以下，超过800像素会先压缩再增强，手机性能有限。<br><br>
+        <strong>选取：</strong>选择要增强的图片。建议50万(=长x宽)像素以下，超过则会先压缩再增强，手机性能有限。<br><br>
         <strong>运行：</strong>开始AI增强，请等待几秒或几十秒不等。速度取决于手机性能和图片复杂度，效果取决于图片细节留存度。<br><br>
         <strong>保存：</strong>保存到“根目录/Pictures/SRMaster”文件夹。<br><br>
         <strong>对比：</strong>切换预览增强前后的图片。右上角第二颗按钮。
