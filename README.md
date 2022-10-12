@@ -20,9 +20,9 @@ AI超分辨率的应用实现，在算力要求较高、Android碎片化严重�
 
 ### 设备要求
 
-**最低：** Android 5.0，CPU armeabi-v7a(32位)
+**最低：** Android 5.0(出厂)，CPU armeabi-v7a(32位)
 
-**推荐：** Android 9.0，CPU arm64-v8a(64位)
+**推荐：** Android 9.0(出厂)，CPU arm64-v8a(64位)
 
 ## 技术选型
 
