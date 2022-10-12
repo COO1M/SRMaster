@@ -20,6 +20,12 @@ class MainViewModel : ViewModel() {
     private var _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.asStateFlow()
 
+    fun superMode() {
+        _uiState.update {
+            it.copy(startBmp = null, endBmp = null, supering = !_uiState.value.supering)
+        }
+    }
+
     //Compare ImageButton Event
     fun compare() {
         _uiState.update {
@@ -33,7 +39,9 @@ class MainViewModel : ViewModel() {
             kotlin.runCatching {
                 viewModelScope.launch(Dispatchers.IO) {
                     _uiState.update { it.copy(loading = true, startBmp = null, endBmp = null) }
-                    _uiState.update { it.copy(startBmp = FileUtil.uri2bitmap(uri)) }
+                    _uiState.update {
+                        it.copy(startBmp = FileUtil.uri2bitmap(uri, !_uiState.value.supering))
+                    }
                     _uiState.update { it.copy(loading = false, comparing = true) }
                 }
             }.onFailure {
@@ -89,5 +97,6 @@ data class MainUiState(
     val startBmp: Bitmap? = null,
     val endBmp: Bitmap? = null,
     val loading: Boolean = false,
-    val comparing: Boolean = true
+    val comparing: Boolean = true,
+    val supering: Boolean = false
 )

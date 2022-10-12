@@ -79,7 +79,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 .fillMaxSize()
                 .navigationBarsPadding()
         ) {
-            val (progress, btn_info, btn_compare, btn_select, btn_run, btn_save) = createRefs()
+            val (progress, btn_info, btn_super, btn_compare, btn_select, btn_run, btn_save) = createRefs()
             createHorizontalChain(btn_select, btn_run, btn_save, chainStyle = ChainStyle.Packed)
 
             //Preview Image
@@ -114,6 +114,18 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 onClick = { scope.launch { sheetState.show() } }
             )
 
+            //Super ImageButton
+            ImgBtn(
+                iconId = if (uiState.supering) R.drawable.ic_baseline_flash_on else R.drawable.ic_baseline_flash_off,
+                labelId = R.string.super_mode,
+                enabled = !uiState.loading,
+                modifier = Modifier.constrainAs(btn_super) {
+                    top.linkTo(btn_info.bottom, 20.dp)
+                    start.linkTo(btn_info.start)
+                },
+                onClick = { viewModel.superMode() }
+            )
+
             //Compare ImageButton
             ImgBtn(
                 iconId = R.drawable.ic_baseline_flip,
@@ -121,7 +133,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 enabled = !uiState.loading && uiState.startBmp != null && uiState.endBmp != null,
                 modifier = Modifier
                     .constrainAs(btn_compare) {
-                        top.linkTo(btn_info.bottom, 20.dp)
+                        top.linkTo(btn_super.bottom, 20.dp)
                         start.linkTo(btn_info.start)
                     }
                     .rotate(if (!uiState.comparing) 180f else 0f),

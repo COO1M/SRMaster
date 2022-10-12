@@ -18,7 +18,7 @@ import kotlin.math.sqrt
 object FileUtil {
 
     @Suppress("DEPRECATION")
-    fun uri2bitmap(uri: Uri): Bitmap {
+    fun uri2bitmap(uri: Uri, compress: Boolean): Bitmap {
         val context = App.context
         val bitmap = if (Build.VERSION.SDK_INT >= 28) {
             val source = ImageDecoder.createSource(context.contentResolver, uri)
@@ -26,12 +26,16 @@ object FileUtil {
         } else {
             MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
         }
-        val width = bitmap.width
-        val height = bitmap.height
-        val pixelCount = width * height
-        return if (pixelCount > 500000) {
-            val scaleFactor = sqrt(pixelCount / 500000.0)
-            bitmap.scale((width / scaleFactor).toInt(), (height / scaleFactor).toInt())
+        return if (compress) {
+            val width = bitmap.width
+            val height = bitmap.height
+            val pixelCount = width * height
+            if (pixelCount > 500000) {
+                val scaleFactor = sqrt(pixelCount / 500000.0)
+                bitmap.scale((width / scaleFactor).toInt(), (height / scaleFactor).toInt())
+            } else {
+                bitmap
+            }
         } else {
             bitmap
         }
