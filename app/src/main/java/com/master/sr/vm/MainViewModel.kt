@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.master.sr.R
 import com.master.sr.utils.FileUtil
 import com.master.sr.utils.TorchUtil
-import com.master.sr.utils.XUtil
+import com.master.sr.utils.TwUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,10 +20,12 @@ class MainViewModel : ViewModel() {
     private var _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.asStateFlow()
 
+    //SuperMode ImageButton Event
     fun superMode() {
         _uiState.update {
             it.copy(startBmp = null, endBmp = null, supering = !_uiState.value.supering)
         }
+        TwUtil.res(if (_uiState.value.supering) R.string.super_mode_on else R.string.super_mode_off)
     }
 
     //Compare ImageButton Event
@@ -31,6 +33,7 @@ class MainViewModel : ViewModel() {
         _uiState.update {
             it.copy(comparing = !_uiState.value.comparing)
         }
+        TwUtil.res(if (_uiState.value.comparing) R.string.compare_on else R.string.compare_off)
     }
 
     //Select Button Callback Event
@@ -45,12 +48,12 @@ class MainViewModel : ViewModel() {
                     _uiState.update { it.copy(loading = false, comparing = true) }
                 }
             }.onFailure {
-                XUtil.tw(XUtil.stringRes(R.string.select_fail, it.stackTraceToString()))
+                TwUtil.res(R.string.select_fail, it.stackTraceToString())
             }.onSuccess {
-                XUtil.tw(XUtil.stringRes(R.string.select_success))
+                TwUtil.res(R.string.select_success)
             }
         } else {
-            XUtil.tw(XUtil.stringRes(R.string.no_select))
+            TwUtil.res(R.string.no_select)
         }
     }
 
@@ -64,12 +67,12 @@ class MainViewModel : ViewModel() {
                     _uiState.update { it.copy(loading = false, comparing = false) }
                 }
             }.onFailure {
-                XUtil.tw(XUtil.stringRes(R.string.run_fail, it.stackTraceToString()))
+                TwUtil.res(R.string.run_fail, it.stackTraceToString())
             }.onSuccess {
-                XUtil.tw(XUtil.stringRes(R.string.run_success))
+                TwUtil.res(R.string.run_success)
             }
         } else {
-            XUtil.tw(XUtil.stringRes(R.string.no_input))
+            TwUtil.res(R.string.no_input)
         }
     }
 
@@ -82,12 +85,12 @@ class MainViewModel : ViewModel() {
                     _uiState.update { it.copy(loading = false, comparing = false) }
                 }
             }.onFailure {
-                XUtil.tw(XUtil.stringRes(R.string.save_fail, it.stackTraceToString()))
+                TwUtil.res(R.string.save_fail, it.stackTraceToString())
             }.onSuccess {
-                XUtil.tw(XUtil.stringRes(R.string.save_success))
+                TwUtil.res(R.string.save_success)
             }
         } else {
-            XUtil.tw(XUtil.stringRes(R.string.no_input))
+            TwUtil.res(R.string.no_input)
         }
     }
 

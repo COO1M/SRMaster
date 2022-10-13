@@ -9,7 +9,7 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.master.sr.ui.AppTheme
-import com.master.sr.utils.XUtil
+import com.master.sr.utils.TwUtil
 import com.master.sr.view.MainScreen
 
 class RootActivity : ComponentActivity() {
@@ -24,7 +24,7 @@ class RootActivity : ComponentActivity() {
                     if (all) {
                         setContent { AppTheme { Surface { MainScreen() } } }
                     } else {
-                        XUtil.tw(XUtil.stringRes(R.string.please_permit_yourself))
+                        TwUtil.res(R.string.please_permit_yourself)
                     }
                 }
 
