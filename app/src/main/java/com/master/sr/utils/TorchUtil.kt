@@ -16,7 +16,7 @@ object TorchUtil {
     private val normStdRGB = floatArrayOf(1f, 1f, 1f)
 
     private val realesrModel by lazy {
-        val context = App.context
+        val context = App.ctx
         val file = File(context.filesDir, "$realesrName.ptl")
         if (!file.exists()) {
             context.filesDir.walk()

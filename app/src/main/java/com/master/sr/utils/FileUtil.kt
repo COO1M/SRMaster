@@ -19,7 +19,7 @@ object FileUtil {
 
     @Suppress("DEPRECATION")
     fun uri2bitmap(uri: Uri, compress: Boolean): Bitmap {
-        val context = App.context
+        val context = App.ctx
         val bitmap = if (Build.VERSION.SDK_INT >= 28) {
             val source = ImageDecoder.createSource(context.contentResolver, uri)
             ImageDecoder.decodeBitmap(source).copy(Bitmap.Config.ARGB_8888, true)
@@ -42,7 +42,7 @@ object FileUtil {
     }
 
     fun saveBitmap(bitmap: Bitmap) {
-        val context: Context = App.context
+        val context: Context = App.ctx
         val now = System.currentTimeMillis().toString()
         if (Build.VERSION.SDK_INT >= 29) {
             val resolver = context.contentResolver

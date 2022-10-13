@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,8 +30,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.master.sr.R
+import com.master.sr.app.App
+import com.master.sr.utils.TwUtil
 import com.master.sr.vm.MainViewModel
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterialApi::class)
@@ -179,8 +180,20 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
         }
     }
 
-    BackHandler(enabled = sheetState.currentValue != ModalBottomSheetValue.Hidden) {
-        scope.launch { sheetState.hide() }
+    var lastBackMillis by remember { mutableStateOf<Long>(0) }
+    BackHandler {
+        if (sheetState.currentValue != ModalBottomSheetValue.Hidden) {
+            scope.launch { sheetState.hide() }
+        } else {
+            val thisBackMillis = System.currentTimeMillis()
+            if (thisBackMillis - lastBackMillis < 2000) {
+                App.act.finish()
+                exitProcess(0)
+            } else {
+                lastBackMillis = thisBackMillis
+                TwUtil.res(R.string.press_again_to_exit)
+            }
+        }
     }
 
 }
