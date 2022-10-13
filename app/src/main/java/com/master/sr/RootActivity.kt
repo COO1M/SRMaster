@@ -18,7 +18,7 @@ class RootActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         XXPermissions.with(this)
-            .permission(Permission.READ_MEDIA_IMAGES, Permission.READ_PHONE_STATE)
+            .permission(Permission.READ_MEDIA_IMAGES)
             .request(object : OnPermissionCallback {
                 override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
                     if (all) {

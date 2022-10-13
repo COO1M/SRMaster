@@ -14,8 +14,8 @@
     <string name="super_mode_off">超级模式已关闭</string>
 
     <string name="compare">对比</string>
-    <string name="compare_on">增强之前</string>
-    <string name="compare_off">增强之后</string>
+    <string name="compare_on">预览：增强前</string>
+    <string name="compare_off">预览：增强后</string>
 
     <string name="select">选取</string>
     <string name="no_select">没有选取</string>
