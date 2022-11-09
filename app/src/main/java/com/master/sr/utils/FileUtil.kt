@@ -26,24 +26,21 @@ object FileUtil {
         } else {
             MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
         }
-        return if (compress) {
+        if (compress) {
             val width = bitmap.width
             val height = bitmap.height
             val pixelCount = width * height
             if (pixelCount > 500000) {
                 val scaleFactor = sqrt(pixelCount / 500000.0)
-                bitmap.scale((width / scaleFactor).toInt(), (height / scaleFactor).toInt())
-            } else {
-                bitmap
+                return bitmap.scale((width / scaleFactor).toInt(), (height / scaleFactor).toInt())
             }
-        } else {
-            bitmap
         }
+        return bitmap
     }
 
     fun saveBitmap(bitmap: Bitmap) {
         val context: Context = App.ctx
-        val now = System.currentTimeMillis().toString()
+        val now = System.currentTimeMillis()
         if (Build.VERSION.SDK_INT >= 29) {
             val resolver = context.contentResolver
             val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
