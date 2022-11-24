@@ -10,7 +10,7 @@ object TwUtil {
     }
 
     fun res(id: Int, vararg args: Any) {
-        Toast.makeText(App.ctx, App.ctx.getString(id, args), Toast.LENGTH_SHORT).show()
+        Toast.makeText(App.ctx, App.ctx.getString(id, *args), Toast.LENGTH_SHORT).show()
     }
 
 }

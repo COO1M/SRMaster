@@ -30,7 +30,6 @@ android {
             include "armeabi-v7a", "arm64-v8a"
         }
     }
-
     buildTypes {
         release {
             minifyEnabled true
@@ -45,7 +44,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
-        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
     buildFeatures {
         compose true
@@ -62,35 +60,37 @@ android {
         includeInApk false
         includeInBundle false
     }
-
 }
 
 dependencies {
-    implementation fileTree(include: ["*.jar"], dir: "libs")
-    implementation "com.github.getActivity:XXPermissions:16.2"
-    implementation "io.coil-kt:coil-compose:2.2.2"
-
-    def torch_version = "1.12.2"
-    implementation "org.pytorch:pytorch_android_lite:$torch_version"
-    implementation "org.pytorch:pytorch_android_torchvision_lite:$torch_version"
-
+    //AndroidX
     implementation "androidx.core:core-ktx:1.9.0"
     implementation "androidx.activity:activity-compose:1.6.1"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     implementation "androidx.startup:startup-runtime:1.1.1"
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.3"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
-
+    implementation "androidx.collection:collection:1.2.0"
+    //Compose
+    def compose_version = "1.3.1"
+    implementation "androidx.compose.animation:animation:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.foundation:foundation-layout:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.runtime:runtime:$compose_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    //Lifecycle
     def lifecycle_version = "2.6.0-alpha03"
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
-
-    def ui_version = "1.3.0"
-    implementation "androidx.compose.ui:ui:$ui_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$ui_version"
-    implementation "androidx.compose.material:material:$ui_version"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$ui_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$ui_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$ui_version"
+    //Pytorch
+    def torch_version = "1.12.2"
+    implementation "org.pytorch:pytorch_android_lite:$torch_version"
+    implementation "org.pytorch:pytorch_android_torchvision_lite:$torch_version"
+    //XXPermission
+    implementation "com.github.getActivity:XXPermissions:16.2"
+    //Coil
+    implementation "io.coil-kt:coil-compose:2.2.2"
+    //Local
+    implementation fileTree(include: ["*.jar"], dir: "libs")
 }

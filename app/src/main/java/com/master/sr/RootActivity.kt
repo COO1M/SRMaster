@@ -23,14 +23,15 @@ class RootActivity : ComponentActivity() {
                 override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
                     if (all) {
                         setContent { AppTheme { Surface { MainScreen() } } }
-                    } else {
-                        TwUtil.res(R.string.please_permit_yourself)
                     }
                 }
 
                 override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
                     if (never) {
+                        TwUtil.res(R.string.permit_yourself)
                         XXPermissions.startPermissionActivity(this@RootActivity, permissions)
+                    } else {
+                        TwUtil.res(R.string.permit_refuse)
                     }
                 }
             })
