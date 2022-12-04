@@ -2,9 +2,9 @@
 
 AI超分辨率的应用实现，在算力要求较高、Android碎片化严重、工具链包体积较大的情况下，Android端一般调用部署到服务器的AI实现。本项目即为一次Android端本地部署AI图片超分辨率的实现。
 
-模型算法请移步[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)，我只对其模型结构部分有所阅读，精力有限。
+模型算法请移步 [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) ，我只对其模型结构部分有所阅读，精力有限。
 
-模型转换请参考[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) 源码和[Pytorch Mobile](https://pytorch.org/mobile/home/) 文档，在此不再赘述，这里只对本项目进行阐述。
+模型转换请参考 [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) 源码和 [Pytorch Mobile](https://pytorch.org/mobile/home/) 文档，在此不再赘述，这里只对本项目进行阐述。
 
 ## 软件使用
 
@@ -42,11 +42,11 @@ AI超分辨率的应用实现，在算力要求较高、Android碎片化严重�
 
 ### 部署
 
-**Tensorflow Lite：** 对Android适配性最好，能够方便地使用CPU、GPU、NNAPI，并且对部署方法、文档非常熟悉。但Pytorch->ONNX->Tensorflow->Tensorflow Lite后，效率欠佳。排除。
+**Tensorflow Lite：** 对Android适配性最好，能够方便地使用GPU、NNAPI等委托，并且文档完善。但Pytorch->ONNX->Tensorflow->Tensorflow Lite后，复杂程度和效率欠佳，排除。
 
-**ncnn：** 部署复杂，且需要对自己的模型完成前置cmake代码。暂排除，有时间细品。
+**ncnn：** 需要对自己的模型完成前置cmake代码，由于没有相关经验，暂排除，有时间学习学习再细品。
 
-**ONNX Runtime：** 在Android端可使用NNAPI，但别人测试Real-ESRGAN的部署效率欠佳。暂排除，有时间细品。
+**ONNX Runtime：** 在Android端可使用NNAPI委托，且可直接用ONNX模型不必转为Lite、Mobile等移动端轻量模型。~~但有人测试部署Real-ESRGAN后效率欠佳，暂排除，有时间细品。~~ 正在品。
 
 **Pytorch Mobile：** pth直接转ptl，转换和部署文档简洁清晰，支持自适应图片尺寸。但暂时只支持CPU，不过效率也还行，基本满足。
 
