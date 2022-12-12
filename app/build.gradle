@@ -10,7 +10,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     namespace "com.master.sr"
     compileSdk 33
-    buildToolsVersion "33.0.0"
+    buildToolsVersion "33.0.1"
     ndkVersion "25.1.8937393"
 
     defaultConfig {
@@ -78,7 +78,7 @@ dependencies {
     //AndroidX
     implementation "androidx.core:core-ktx:1.9.0"
     implementation "androidx.activity:activity-compose:1.6.1"
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha04"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha05"
     implementation "androidx.startup:startup-runtime:1.1.1"
     implementation "androidx.collection:collection:1.2.0"
     //Compose
@@ -100,7 +100,7 @@ dependencies {
     implementation "org.pytorch:pytorch_android_lite:$torch_version"
     implementation "org.pytorch:pytorch_android_torchvision_lite:$torch_version"
     //XXPermission
-    implementation "com.github.getActivity:XXPermissions:16.2"
+    implementation "com.github.getActivity:XXPermissions:16.5"
     //Coil
     implementation "io.coil-kt:coil-compose:2.2.2"
     //Local

@@ -18,13 +18,13 @@ class RootActivity : ComponentActivity() {
         XXPermissions.with(this)
             .permission(Permission.READ_MEDIA_IMAGES)
             .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+                override fun onGranted(permissions: MutableList<String>, all: Boolean) {
                     if (all) {
                         setContent { AppTheme { Surface { MainScreen() } } }
                     }
                 }
 
-                override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+                override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                     if (never) {
                         TwUtil.res(R.string.permit_yourself)
                         XXPermissions.startPermissionActivity(this@RootActivity, permissions)
