@@ -10,29 +10,22 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     namespace "com.master.sr"
     compileSdk 33
-    buildToolsVersion "33.0.1"
-    ndkVersion "25.1.8937393"
+    buildToolsVersion "33.0.2"
+    ndkVersion "25.2.9519653"
 
     defaultConfig {
         applicationId "com.master.sr"
-        minSdk 21
+        minSdk 28
         targetSdk 33
-        versionCode 10
-        versionName "1.0"
-        ndk { abiFilters "armeabi-v7a", "arm64-v8a" }
-        resConfigs "zh"
+        versionCode 11
+        versionName "1.1"
+
+        ndk { abiFilters "arm64-v8a" }
+        resourceConfigurations["zh"]
 
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary true }
-    }
-    splits {
-        abi {
-            reset()
-            enable true
-            universalApk true
-            include "armeabi-v7a", "arm64-v8a"
-        }
     }
     signingConfigs {
         debug {
@@ -51,17 +44,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.3.2"
+        kotlinCompilerExtensionVersion "1.4.7"
     }
     packagingOptions {
         resources {
@@ -72,37 +65,44 @@ android {
         includeInApk false
         includeInBundle false
     }
+    allprojects {
+        configurations.all {
+            resolutionStrategy {
+                force "androidx.collection:collection:1.2.0"
+            }
+        }
+    }
 }
 
 dependencies {
     //AndroidX
-    implementation "androidx.core:core-ktx:1.9.0"
-    implementation "androidx.activity:activity-compose:1.6.1"
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha05"
+    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.activity:activity-compose:1.7.2"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha08"
     implementation "androidx.startup:startup-runtime:1.1.1"
-    implementation "androidx.collection:collection:1.2.0"
     //Compose
-    def compose_version = "1.3.1"
+    def compose_version = "1.4.3"
     implementation "androidx.compose.animation:animation:$compose_version"
     implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation "androidx.compose.foundation:foundation-layout:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.runtime:runtime:$compose_version"
     implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     //Lifecycle
-    def lifecycle_version = "2.6.0-alpha03"
+    def lifecycle_version = "2.6.1"
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     //Pytorch
-    def torch_version = "1.12.2"
+    def torch_version = "1.13.1"
     implementation "org.pytorch:pytorch_android_lite:$torch_version"
     implementation "org.pytorch:pytorch_android_torchvision_lite:$torch_version"
+    //Onnx
+    implementation "com.microsoft.onnxruntime:onnxruntime-android:1.15.0"
+    implementation "com.microsoft.onnxruntime:onnxruntime-extensions-android:0.8.0"
     //XXPermission
-    implementation "com.github.getActivity:XXPermissions:16.5"
+    implementation "com.github.getActivity:XXPermissions:18.2"
     //Coil
-    implementation "io.coil-kt:coil-compose:2.2.2"
-    //Local
-    implementation fileTree(include: ["*.jar"], dir: "libs")
+    implementation "io.coil-kt:coil-compose:2.4.0"
+    //UM
+    implementation "com.umeng.umsdk:common:9.6.1"
+    implementation "com.umeng.umsdk:asms:1.8.0"
 }
