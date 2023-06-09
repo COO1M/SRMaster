@@ -1,11 +1,9 @@
-package com.master.sr.ui
+package com.master.sr.theme
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val ColorPalette = darkColors(
+val AppColor = darkColors(
     primary = Color(0xFFF9A825),
     primaryVariant = Color(0xFFF9A825),
     secondary = Color(0xFFF9A825),
@@ -21,11 +19,3 @@ private val ColorPalette = darkColors(
     error = Color(0xFFFF0000),
     onError = Color(0xFFFFFFFF)
 )
-
-@Composable
-fun AppTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colors = ColorPalette,
-        content = content
-    )
-}
