@@ -24,30 +24,36 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.master.sr.R
 import com.master.sr.app.App
-import com.master.sr.utils.TwUtil
+import com.master.sr.util.TwUtil
 import com.master.sr.vm.MainViewModel
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-
-@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainScreen(viewModel: MainViewModel = viewModel()) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+fun MainScreen() {
+    val vm: MainViewModel = viewModel()
+    val uiState by vm.uiState.collectAsState()
+
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
     )
     val scope = rememberCoroutineScope()
-    val selectPicture = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
-        viewModel.select(it)
+
+    val selectPicture = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            vm.select(uri)
+        } else {
+            TwUtil.short(R.string.no_select)
+        }
     }
 
     ModalBottomSheetLayout(
@@ -65,13 +71,16 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 factory = { ctx ->
                     TextView(ctx).apply {
                         text = HtmlCompat.fromHtml(
-                            ctx.getString(R.string.info_content), HtmlCompat.FROM_HTML_MODE_LEGACY
+                            ctx.getString(R.string.info_content),
+                            HtmlCompat.FROM_HTML_MODE_LEGACY
                         )
                         isClickable = true
                         movementMethod = LinkMovementMethod.getInstance()
                     }
                 },
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 10.dp)
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 10.dp)
+                    .navigationBarsPadding()
             )
         }
     ) {
@@ -87,7 +96,6 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(if (uiState.comparing) uiState.startBmp else uiState.endBmp)
-                    .crossfade(200)
                     .build(),
                 contentDescription = stringResource(R.string.preview),
                 error = painterResource(R.drawable.ic_baseline_crop_free),
@@ -124,7 +132,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                     top.linkTo(btn_info.bottom, 20.dp)
                     start.linkTo(btn_info.start)
                 },
-                onClick = { viewModel.superMode() }
+                onClick = { vm.superMode() }
             )
 
             //Compare ImageButton
@@ -138,7 +146,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                         start.linkTo(btn_info.start)
                     }
                     .rotate(if (!uiState.comparing) 180f else 0f),
-                onClick = { viewModel.compare() }
+                onClick = { vm.compare() }
             )
 
             //Select Button
@@ -162,7 +170,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                     start.linkTo(btn_select.end, 20.dp)
                     end.linkTo(btn_save.start, 20.dp)
                 },
-                onClick = { viewModel.run() }
+                onClick = { vm.run() }
             )
 
             //Save Button
@@ -174,7 +182,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                     start.linkTo(btn_run.end)
                     end.linkTo(parent.end)
                 },
-                onClick = { viewModel.save() }
+                onClick = { vm.save() }
             )
 
         }
@@ -191,7 +199,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 exitProcess(0)
             } else {
                 lastBackMillis = thisBackMillis
-                TwUtil.res(R.string.press_again_to_exit)
+                TwUtil.short(R.string.press_again_to_exit)
             }
         }
     }

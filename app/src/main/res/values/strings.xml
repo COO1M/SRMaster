@@ -11,7 +11,7 @@
     <string name="no_app">无可用程序</string>
 
     <string name="super_mode">超级模式</string>
-    <string name="super_mode_on">超级模式已开启，运行时将会占用巨量运存和CPU</string>
+    <string name="super_mode_on">超级模式已开启</string>
     <string name="super_mode_off">超级模式已关闭</string>
 
     <string name="compare">对比</string>
