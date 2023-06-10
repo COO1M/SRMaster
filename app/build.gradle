@@ -76,12 +76,13 @@ android {
 
 dependencies {
     //AndroidX
-    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.core:core-ktx:1.11.0-beta02"
     implementation "androidx.activity:activity-compose:1.7.2"
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha08"
-    implementation "androidx.startup:startup-runtime:1.1.1"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10"
+    implementation "androidx.startup:startup-runtime:1.2.0-alpha02"
+    implementation "androidx.core:core-splashscreen:1.0.1"
     //Compose
-    def compose_version = "1.4.3"
+    def compose_version = "1.5.0-beta02"
     implementation "androidx.compose.animation:animation:$compose_version"
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
