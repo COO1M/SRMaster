@@ -7,12 +7,18 @@
 
     <string name="preview">预览</string>
 
-    <string name="info">关于</string>
-    <string name="no_app">无可用程序</string>
+    <string name="menu">菜单</string>
 
-    <string name="super_mode">超级模式</string>
-    <string name="super_mode_on">超级模式已开启</string>
-    <string name="super_mode_off">超级模式已关闭</string>
+    <string name="info">说明</string>
+    <string name="info_content">
+        <![CDATA[
+        <strong>选取：</strong>选择要增强的图片。建议100万(=长x宽)像素以下的图片，否则默认会先压缩到100万像素以下再增强，可在设置中修改。<br><br>
+        <strong>运行：</strong>开始增强图片。请等待一段时间，速度取决于手机性能和图片复杂度，效果取决于图片细节留存度。<br><br>
+        <strong>保存：</strong>保存增强后的图片。储存在“根目录/Pictures/SRMaster”文件夹。<br><br>
+        <strong>菜单：</strong>设置更改一些选项。左上角的按钮<br><br>
+        <strong>对比：</strong>切换预览增强前后的图片。右上角第二颗按钮。
+        ]]>
+    </string>
 
     <string name="compare">对比</string>
     <string name="compare_on">预览：增强前</string>
@@ -21,31 +27,44 @@
     <string name="select">选取</string>
     <string name="no_select">没有选取</string>
     <string name="select_success">选取成功</string>
-    <string name="select_fail">选取失败\n%s</string>
+    <string name="select_fail">选取失败：\n%s</string>
 
     <string name="run">运行</string>
     <string name="no_input">没有输入</string>
     <string name="run_success">运行成功</string>
-    <string name="run_fail">运行失败\n%s</string>
+    <string name="run_fail">运行失败：\n%s</string>
 
     <string name="save">保存</string>
     <string name="save_success">保存成功</string>
-    <string name="save_fail">保存失败\n%s</string>
+    <string name="save_fail">保存失败：\n%s</string>
 
-    <string name="info_content">
+    <string name="back">返回</string>
+    <string name="choose">选择</string>
+
+    <string name="setting">设置</string>
+
+    <string name="compress_image">压缩图片</string>
+    <string name="compress_image_info">待处理图片超过100万(=长x宽)像素时是否压缩</string>
+    <string-array name="compress_image_choice">
+        <item>是</item>
+        <item>否</item>
+    </string-array>
+
+    <string name="model_backend">模型后端</string>
+    <string name="model_backend_info">选择不同模型后端</string>
+    <string-array name="model_backend_choice">
+        <item>Pytorch Mobile CPU</item>
+        <item>ONNX Runtime NNAPI</item>
+    </string-array>
+
+    <string name="other">其它</string>
+
+    <string name="other_content">
         <![CDATA[
-        <h3>功能说明</h3>
-        <strong>选取：</strong>选择要增强的图片。建议50万(=长x宽)像素以下，超过则会先压缩再增强，手机性能有限。<br><br>
-        <strong>运行：</strong>开始AI增强，请等待几秒或几十秒不等。速度取决于手机性能和图片复杂度，效果取决于图片细节留存度。<br><br>
-        <strong>保存：</strong>保存到“根目录/Pictures/SRMaster”文件夹。<br><br>
-        <strong>超级模式：</strong>取消压缩图片，取消调度策略，满载运行！运行时会占用巨量运存和CPU，非近年旗舰机型慎用。右上角第二颗按钮。<br><br>
-        <strong>对比：</strong>切换预览增强前后的图片。右上角第三颗按钮。
-        <h3>设备要求</h3>
-        <strong>最低：</strong>Android 出厂5.0，CPU armeabi-v7a(32位)<br>
-        <strong>推荐：</strong>Android 出厂9.0，CPU arm64-v8a(64位)
-        <h3>支持</h3>
+        SR大师是一个Android端部署AI模型的试验性项目，目的是探索该过程中的不同流程与方法。如果有任何与SR大师相关的问题或建议，请联系我。<br><br>
         官方网站<a href="https://coolm.cc/product/2">https://coolm.cc/product/2</a><br>
         项目地址<a href="https://github.com/COO1M/SRMaster">https://github.com/COO1M/SRMaster<a/>
         ]]>
     </string>
+
 </resources>

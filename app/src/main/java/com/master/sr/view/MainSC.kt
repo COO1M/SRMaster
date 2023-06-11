@@ -1,7 +1,5 @@
 package com.master.sr.view
 
-import android.text.method.LinkMovementMethod
-import android.widget.TextView
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,24 +18,25 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.core.text.HtmlCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.master.sr.R
 import com.master.sr.app.App
 import com.master.sr.util.TwUtil
-import com.master.sr.vm.MainViewModel
+import com.master.sr.vm.MainVM
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainScreen() {
-    val vm: MainViewModel = viewModel()
+fun MainSC(
+    needClear: Boolean,
+    navigateToMenu: () -> Unit
+) {
+    val vm: MainVM = viewModel()
     val uiState by vm.uiState.collectAsState()
 
     val sheetState = rememberModalBottomSheetState(
@@ -56,9 +55,14 @@ fun MainScreen() {
         }
     }
 
+    LaunchedEffect(Unit) {
+        if (needClear) vm.clear()
+        vm.initSetting()
+    }
+
     ModalBottomSheetLayout(
         sheetState = sheetState,
-        sheetShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+        sheetShape = RoundedCornerShape(30.dp),
         sheetContent = {
             Divider(
                 modifier = Modifier
@@ -67,19 +71,10 @@ fun MainScreen() {
                     .clip(RoundedCornerShape(50))
                     .align(Alignment.CenterHorizontally)
             )
-            AndroidView(
-                factory = { ctx ->
-                    TextView(ctx).apply {
-                        text = HtmlCompat.fromHtml(
-                            ctx.getString(R.string.info_content),
-                            HtmlCompat.FROM_HTML_MODE_LEGACY
-                        )
-                        isClickable = true
-                        movementMethod = LinkMovementMethod.getInstance()
-                    }
-                },
+            HtmlText(
+                id = R.string.info_content,
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 10.dp)
+                    .padding(start = 20.dp, end = 20.dp, bottom = 30.dp, top = 10.dp)
                     .navigationBarsPadding()
             )
         }
@@ -89,7 +84,7 @@ fun MainScreen() {
                 .fillMaxSize()
                 .navigationBarsPadding()
         ) {
-            val (progress, btn_info, btn_super, btn_compare, btn_select, btn_run, btn_save) = createRefs()
+            val (progress, btn_menu, btn_info, btn_compare, btn_select, btn_run, btn_save) = createRefs()
             createHorizontalChain(btn_select, btn_run, btn_save, chainStyle = ChainStyle.Packed)
 
             //Preview Image
@@ -111,7 +106,18 @@ fun MainScreen() {
                 )
             }
 
-            //About ImageButton
+            //Menu ImageButton
+            ImgBtn(
+                iconId = R.drawable.ic_baseline_menu,
+                labelId = R.string.menu,
+                modifier = Modifier.constrainAs(btn_menu) {
+                    top.linkTo(parent.top, 50.dp)
+                    start.linkTo(parent.start, 20.dp)
+                },
+                onClick = { navigateToMenu() }
+            )
+
+            //Info ImageButton
             ImgBtn(
                 iconId = R.drawable.ic_baseline_contact_support,
                 labelId = R.string.info,
@@ -123,18 +129,6 @@ fun MainScreen() {
                 onClick = { scope.launch { sheetState.show() } }
             )
 
-            //Super ImageButton
-            ImgBtn(
-                iconId = if (uiState.supering) R.drawable.ic_baseline_flash_on else R.drawable.ic_baseline_flash_off,
-                labelId = R.string.super_mode,
-                enabled = !uiState.loading,
-                modifier = Modifier.constrainAs(btn_super) {
-                    top.linkTo(btn_info.bottom, 20.dp)
-                    start.linkTo(btn_info.start)
-                },
-                onClick = { vm.superMode() }
-            )
-
             //Compare ImageButton
             ImgBtn(
                 iconId = R.drawable.ic_baseline_flip,
@@ -142,7 +136,7 @@ fun MainScreen() {
                 enabled = !uiState.loading && uiState.startBmp != null && uiState.endBmp != null,
                 modifier = Modifier
                     .constrainAs(btn_compare) {
-                        top.linkTo(btn_super.bottom, 20.dp)
+                        top.linkTo(btn_info.bottom, 20.dp)
                         start.linkTo(btn_info.start)
                     }
                     .rotate(if (!uiState.comparing) 180f else 0f),
@@ -155,8 +149,6 @@ fun MainScreen() {
                 enabled = !uiState.loading,
                 modifier = Modifier.constrainAs(btn_select) {
                     bottom.linkTo(parent.bottom, 30.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(btn_run.start)
                 },
                 onClick = { selectPicture.launch("image/*") }
             )
@@ -165,11 +157,11 @@ fun MainScreen() {
             Btn(
                 labelId = R.string.run,
                 enabled = !uiState.loading && uiState.startBmp != null,
-                modifier = Modifier.constrainAs(btn_run) {
-                    top.linkTo(btn_select.top)
-                    start.linkTo(btn_select.end, 20.dp)
-                    end.linkTo(btn_save.start, 20.dp)
-                },
+                modifier = Modifier
+                    .constrainAs(btn_run) {
+                        top.linkTo(btn_select.top)
+                    }
+                    .padding(horizontal = 20.dp),
                 onClick = { vm.run() }
             )
 
@@ -179,8 +171,6 @@ fun MainScreen() {
                 enabled = !uiState.loading && uiState.startBmp != null && uiState.endBmp != null,
                 modifier = Modifier.constrainAs(btn_save) {
                     top.linkTo(btn_select.top)
-                    start.linkTo(btn_run.end)
-                    end.linkTo(parent.end)
                 },
                 onClick = { vm.save() }
             )

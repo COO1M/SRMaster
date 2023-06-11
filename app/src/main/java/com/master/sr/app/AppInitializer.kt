@@ -1,8 +1,8 @@
-package com.master.sr.mid
+package com.master.sr.app
 
 import android.content.Context
 import androidx.startup.Initializer
-import com.master.sr.app.Constant
+import com.master.sr.util.KVUtil
 import com.umeng.commonsdk.UMConfigure
 
 class AppInitializer : Initializer<Unit> {
@@ -15,6 +15,7 @@ class AppInitializer : Initializer<Unit> {
             UMConfigure.DEVICE_TYPE_PHONE,
             null
         )
+        KVUtil.init(context)
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> {

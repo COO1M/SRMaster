@@ -38,7 +38,7 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="com.master.sr.mid.AppInitializer"
+                android:name="com.master.sr.app.AppInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>
