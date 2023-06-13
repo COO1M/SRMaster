@@ -5,6 +5,9 @@
 -keep class org.pytorch.** {*;}
 -keep class com.facebook.** {*;}
 
+# ONNX
+-keep class ai.onnxruntime.** {*;}
+
 # UM
 -keep class com.umeng.** {*;}
 -keep class org.repackage.** {*;}
