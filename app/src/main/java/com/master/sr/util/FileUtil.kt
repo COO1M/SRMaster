@@ -5,10 +5,14 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.scale
 import com.master.sr.app.App
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.FloatBuffer
 import kotlin.math.sqrt
 
 object FileUtil {
@@ -65,6 +69,27 @@ object FileUtil {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
             }
         }
+    }
+
+    fun bitmap2floatBuffer(bitmap: Bitmap): FloatBuffer {
+        val width = bitmap.width
+        val height = bitmap.height
+        val count = width * height
+
+        val pixels = IntArray(count)
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        val buffer = ByteBuffer.allocateDirect(count * 3 * 4)
+            .order(ByteOrder.nativeOrder())
+            .asFloatBuffer()
+        for (i in 0 until count) {
+            val color = Color(pixels[i])
+            buffer.put(i, color.red)
+            buffer.put(i + count, color.green)
+            buffer.put(i + count * 2, color.blue)
+        }
+
+        return buffer
     }
 
 }

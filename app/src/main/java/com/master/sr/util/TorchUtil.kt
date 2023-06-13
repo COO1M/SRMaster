@@ -22,24 +22,25 @@ object TorchUtil {
             floatArrayOf(1f, 1f, 1f),
             MemoryFormat.CONTIGUOUS
         )
+
         val outTensor = realesrganModel.forward(IValue.from(inTensor)).toTensor()
+
         val outArray = outTensor.dataAsFloatArray
 
-        val outShape = outTensor.shape()
-        val outWidth = outShape[3].toInt()
-        val outHeight = outShape[2].toInt()
-        val outCount = outWidth * outHeight
-
         val conversion = { f: Float -> ((f.coerceIn(0f, 1f)) * 255f).roundToInt() }
-
+        val outWidth = inBitmap.width * 4
+        val outHeight = inBitmap.height * 4
+        val outCount = outWidth * outHeight
         val outPixels = IntArray(outCount)
-        val outBitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.RGB_565)
+
         for (i in 0 until outCount) {
             val r = conversion(outArray[i])
             val g = conversion(outArray[i + outCount])
             val b = conversion(outArray[i + outCount * 2])
             outPixels[i] = Color.rgb(r, g, b)
         }
+
+        val outBitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.RGB_565)
         outBitmap.setPixels(outPixels, 0, outWidth, 0, 0, outWidth, outHeight)
 
         return outBitmap

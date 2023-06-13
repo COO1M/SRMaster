@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.master.sr.R
 import com.master.sr.util.FileUtil
 import com.master.sr.util.KVUtil
+import com.master.sr.util.OnnxUtil
 import com.master.sr.util.TorchUtil
 import com.master.sr.util.TwUtil
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +45,7 @@ class MainVM : ViewModel() {
 
     fun select(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
         _uiState.update {
-            it.copy(loading = true, comparing = true, startBmp = null, endBmp = null)
+            it.copy(loading = true, startBmp = null, endBmp = null)
         }
 
         kotlin.runCatching {
@@ -57,11 +58,11 @@ class MainVM : ViewModel() {
             TwUtil.short(R.string.select_success)
         }
 
-        _uiState.update { it.copy(loading = false) }
+        _uiState.update { it.copy(loading = false, comparing = true) }
     }
 
     fun run() = viewModelScope.launch(Dispatchers.Default) {
-        _uiState.update { it.copy(loading = true, endBmp = null, comparing = false) }
+        _uiState.update { it.copy(loading = true, endBmp = null) }
 
         if (_uiState.value.startBmp != null) {
             kotlin.runCatching {
@@ -71,7 +72,7 @@ class MainVM : ViewModel() {
                         if (_uiState.value.modelBackendIndex == 0)
                             TorchUtil.runRealesrgan(_uiState.value.startBmp!!)
                         else
-                            TorchUtil.runRealesrgan(_uiState.value.startBmp!!)
+                            OnnxUtil.runRealesrgan(_uiState.value.startBmp!!)
                     )
                 }
             }.onFailure { t ->
@@ -83,7 +84,7 @@ class MainVM : ViewModel() {
             TwUtil.short(R.string.no_input)
         }
 
-        _uiState.update { it.copy(loading = false) }
+        _uiState.update { it.copy(loading = false, comparing = false) }
     }
 
     fun save() = viewModelScope.launch(Dispatchers.IO) {
