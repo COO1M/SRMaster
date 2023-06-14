@@ -37,16 +37,12 @@ class MainVM : ViewModel() {
     }
 
     fun compare() {
-        _uiState.update {
-            it.copy(comparing = !_uiState.value.comparing)
-        }
+        _uiState.update { it.copy(comparing = !_uiState.value.comparing) }
         TwUtil.short(if (_uiState.value.comparing) R.string.compare_on else R.string.compare_off)
     }
 
     fun select(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
-        _uiState.update {
-            it.copy(loading = true, startBmp = null, endBmp = null)
-        }
+        _uiState.update { it.copy(loading = true, startBmp = null, endBmp = null) }
 
         kotlin.runCatching {
             _uiState.update {

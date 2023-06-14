@@ -1,5 +1,9 @@
 package com.master.sr.nav
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,6 +18,21 @@ fun RootNav() {
     NavHost(
         navController = rootNavController,
         startDestination = RootDes.Main.route,
+        enterTransition = {
+            fadeIn(tween(300)) + slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                animationSpec = tween(300),
+                initialOffset = { it / 2 }
+            )
+        },
+        exitTransition = { fadeOut(tween(300)) },
+        popEnterTransition = { fadeIn(tween(300)) },
+        popExitTransition = {
+            fadeOut(tween(300)) + slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                animationSpec = tween(300),
+                targetOffset = { it / 2 })
+        }
     ) {
 
         composable(route = RootDes.Main.route) { backStack ->
