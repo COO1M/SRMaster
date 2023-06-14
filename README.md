@@ -1,53 +1,66 @@
 # SR大师
 
-AI超分辨率的应用实现，在算力要求较高、Android碎片化严重、工具链包体积较大的情况下，Android端一般调用部署到服务器的AI实现。本项目即为一次Android端本地部署AI图片超分辨率的实现。
+本项目的主要内容是把AI超分辨率模型转化成移动端模型，然后部署到Android端实现本地的图片超分辨率功能，在这个过程中探索出相对简单易用、高效可靠的部署方案，给不精通于Android开发的AI研究人员提供一些参考。
 
-模型算法请移步 [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) ，我只对其模型结构部分有所阅读，精力有限。
+目前，超分辨率模型采用Real-ESRGAN，移动端模型后端已实现Pytorch Mobile、ONNX Runtime。
 
-模型转换请参考 [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) 源码和 [Pytorch Mobile](https://pytorch.org/mobile/home/) 文档，在此不再赘述，这里只对本项目进行阐述。
+模型算法请移步 [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) ，由于我并非专业AI研究人员，因此只对其模型结构部分有所阅读了解。
 
-## 软件使用
+模型转换请参考 [Pytorch Mobile](https://pytorch.org/mobile/home/) 文档和 [ONNX Runtime](https://onnxruntime.ai/docs/) 文档，在此不再赘述。
 
-### 功能说明
+## 软件说明
 
-**选取：** 选择要增强的图片。建议50万像素(=长x宽)以下，超过则会先压缩再增强，手机性能有限。
+### 主要功能
 
-**运行：** 开始AI增强，请等待几秒或几十秒不等。速度取决于手机性能和图片复杂度，效果取决于图片细节留存度。
+**选取：** 选择要增强的图片。建议100万(=长x宽)像素以下的图片，否则默认会先压缩到100万像素以下再增强，可在设置中修改。
 
-**保存：** 保存到“根目录/Pictures/SRMaster”文件夹。
+**运行：** 开始增强图片。请等待一段时间，速度取决于手机性能和图片复杂度，效果取决于图片细节留存度。
 
-**超级模式：** 取消压缩图片，取消调度策略，满载运行！运行时会占用巨量运存和CPU，非近年旗舰机型慎用。右上角第二颗按钮。
+**保存：** 保存增强后的图片。储存在“根目录/Pictures/SRMaster”文件夹。
 
-**对比：** 切换预览增强前后的图片。右上角第三颗按钮。  
+**菜单：** 设置更改一些选项。左上角的按钮。
+
+**对比：** 切换预览增强前后的图片。右上角第二颗按钮。
 
 ### 设备要求
 
-**最低：** Android 出厂5.0，CPU armeabi-v7a(32位)
+Android 9.0，CPU arm64-v8a(64位)
 
-**推荐：** Android 出厂9.0，CPU arm64-v8a(64位)
+> 之前是支持Android 5.0，CPU armeabi-v7a(32位)的，但是实际上过于老旧的设备运行计算量如此大的超分辨率模型非常吃力，且统计发现用户中Android 9.0以下的设备非常少，因此不再适配。
+>
+> 若你有适配需求，可以直接在你的项目中改动minSdk和abiFilters，然后在历史提交中找到FileUtil.kt中对Android 9.0以下图片bitmap读写的代码，使用到你的项目中。
 
-## 技术选型
+### 功能计划
 
-### 算法
+- 模型管理功能
+- NCNN后端
 
-**ESRGAN：** 效果还OK，但没有后续维护支持，并且在Android端资源占用太高了，因此我在测试完效果后即排除。
+## 技术说明
 
-**Real-CUGAN：** 动漫风格为主，排除。
+过程中一些容易出现问题的点在这里进行提醒。
 
-**Real-ESRGAN：** 有维护支持、动漫/照片都行、且3.0大幅减小了模型体积，基本满足我的需求。
+##### 1.Real-ESRGAN的模型结构
 
-> 只是测试是否满足本项目的需求，并非对以上研究成果进行指点！
+有RRDBNet和SRVGGNetCompact两种，请注意对应版本。
 
-> 其余如waifu2x、SRMD、RealSR可自行搜索参考。基准测试可参考https://videoprocessing.ai/benchmarks/video-upscalers.html。
+![image-20230614172841375](./README.assets/image-20230614172841375.png)
 
-### 部署
+##### 2.Pytorch Mobile库的混淆规则
 
-**Tensorflow Lite：** 对Android适配性最好，能够方便地使用GPU、NNAPI等委托，并且文档完善。但Pytorch->ONNX->Tensorflow->Tensorflow Lite后，复杂程度和效率欠佳，排除。
+在正式打包APP设置minifyEnabled=true时，请添加 `-keep class org.pytorch.** {*;}` 和 ` -keep class com.facebook.** {*;}` 到proguard-rules.pro，否则R8将会压缩混淆掉库方法，APP运行会报错ClassNotFoundException。
 
-**ncnn：** 需要对自己的模型完成前置cmake代码，由于没有相关经验，暂排除，有时间学习学习再细品。
+![image-20230614173126045](./README.assets/image-20230614173126045.png)
 
-**ONNX Runtime：** 在Android端可使用NNAPI委托，且可直接用ONNX模型不必转为Lite、Mobile等移动端轻量模型。~~但有人测试部署Real-ESRGAN后效率欠佳，暂排除，有时间细品。~~ 正在品。
+##### 3.ONNX Runtime的OrtEnvironment
 
-**Pytorch Mobile：** pth直接转ptl，转换和部署文档简洁清晰，支持自适应图片尺寸。但暂时只支持CPU，不过效率也还行，基本满足。
+在使用ONNX Runtime的库方法时，请一定在之前调用 `OrtEnvironment.getEnvironment()` 初始化，否则调用不了库里的方法，报错UnsatisfiedLinkError。
 
-> 注意！Pytorch Android部署有一个问题：正式打包使用minifyEnabled=true后，编译时Proguard会将PytorchAndroid以及其中的依赖混淆掉，导致报错，请添加`-keep class org.pytorch.** {*;}`、` -keep class com.facebook.** {*;}`到Proguard rules，目前我已提交Pr。
+YES ===>
+
+![image-20230614174155993](./README.assets/image-20230614174155993.png)
+
+NO ===>
+
+![image-20230614174447321](./README.assets/image-20230614174447321.png)
+
+![image-20230614174858726](./README.assets/image-20230614174858726.png)

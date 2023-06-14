@@ -15,7 +15,7 @@
         <strong>选取：</strong>选择要增强的图片。建议100万(=长x宽)像素以下的图片，否则默认会先压缩到100万像素以下再增强，可在设置中修改。<br><br>
         <strong>运行：</strong>开始增强图片。请等待一段时间，速度取决于手机性能和图片复杂度，效果取决于图片细节留存度。<br><br>
         <strong>保存：</strong>保存增强后的图片。储存在“根目录/Pictures/SRMaster”文件夹。<br><br>
-        <strong>菜单：</strong>设置更改一些选项。左上角的按钮<br><br>
+        <strong>菜单：</strong>设置更改一些选项。左上角的按钮。<br><br>
         <strong>对比：</strong>切换预览增强前后的图片。右上角第二颗按钮。
         ]]>
     </string>
