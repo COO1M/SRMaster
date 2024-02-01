@@ -8,16 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.master.sr.view.MainSC
-import com.master.sr.view.MenuSC
+import com.master.sr.feature.main.MainScreen
+import com.master.sr.feature.menu.MenuScreen
 
 @Composable
-fun RootNav() {
+fun RootNavigation() {
     val rootNavController = rememberNavController()
 
     NavHost(
         navController = rootNavController,
-        startDestination = RootDes.Main.route,
+        startDestination = RootDestination.Main.route,
         enterTransition = {
             fadeIn(tween(300)) + slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Up,
@@ -35,19 +35,20 @@ fun RootNav() {
         }
     ) {
 
-        composable(route = RootDes.Main.route) { backStack ->
-            val needClear = backStack.savedStateHandle.get<Boolean>(RootDes.Main.needClear) ?: false
-            MainSC(
+        composable(route = RootDestination.Main.route) { backStack ->
+            val needClear =
+                backStack.savedStateHandle.get<Boolean>(RootDestination.Main.needClear) ?: false
+            MainScreen(
                 needClear = needClear,
-                navigateToMenu = { rootNavController.navigate(RootDes.Menu.route) }
+                navigateToMenu = { rootNavController.navigate(RootDestination.Menu.route) }
             )
         }
 
-        composable(route = RootDes.Menu.route) { backStack ->
+        composable(route = RootDestination.Menu.route) {
             val previousBackStack = rootNavController.previousBackStackEntry
-            MenuSC(
+            MenuScreen(
                 navigateBack = {
-                    previousBackStack?.savedStateHandle?.set(RootDes.Main.needClear, it)
+                    previousBackStack?.savedStateHandle?.set(RootDestination.Main.needClear, it)
                     rootNavController.popBackStack()
                 }
             )

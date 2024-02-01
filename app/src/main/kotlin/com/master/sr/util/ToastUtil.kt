@@ -3,7 +3,7 @@ package com.master.sr.util
 import android.widget.Toast
 import com.master.sr.app.App
 
-object TwUtil {
+object ToastUtil {
 
     private lateinit var lastToast: Toast
 

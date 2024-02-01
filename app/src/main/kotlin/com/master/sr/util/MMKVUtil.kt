@@ -3,7 +3,7 @@ package com.master.sr.util
 import android.content.Context
 import com.tencent.mmkv.MMKV
 
-object KVUtil {
+object MMKVUtil {
 
     lateinit var kv: MMKV
     private const val compressImageKey = "compress_image_index"

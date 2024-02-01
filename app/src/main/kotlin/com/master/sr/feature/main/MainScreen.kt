@@ -1,4 +1,4 @@
-package com.master.sr.view
+package com.master.sr.feature.main
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -25,18 +26,21 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.master.sr.R
 import com.master.sr.app.App
-import com.master.sr.util.TwUtil
-import com.master.sr.vm.MainVM
+import com.master.sr.theme.AppTheme
+import com.master.sr.util.ToastUtil
+import com.master.sr.view.Btn
+import com.master.sr.view.HtmlText
+import com.master.sr.view.ImgBtn
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainSC(
+fun MainScreen(
     needClear: Boolean,
     navigateToMenu: () -> Unit
 ) {
-    val vm: MainVM = viewModel()
+    val vm: MainViewModel = viewModel()
     val uiState by vm.uiState.collectAsState()
 
     val sheetState = rememberModalBottomSheetState(
@@ -51,7 +55,7 @@ fun MainSC(
         if (uri != null) {
             vm.select(uri)
         } else {
-            TwUtil.short(R.string.no_select)
+            ToastUtil.short(R.string.no_select)
         }
     }
 
@@ -189,9 +193,20 @@ fun MainSC(
                 exitProcess(0)
             } else {
                 lastBackMillis = thisBackMillis
-                TwUtil.short(R.string.press_again_to_exit)
+                ToastUtil.short(R.string.press_again_to_exit)
             }
         }
     }
 
+}
+
+@Preview
+@Composable
+fun MainScreenPreview() {
+    AppTheme {
+        MainScreen(
+            needClear = false,
+            navigateToMenu = {}
+        )
+    }
 }

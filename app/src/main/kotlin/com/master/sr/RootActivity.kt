@@ -10,9 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.master.sr.nav.RootNav
+import com.master.sr.nav.RootNavigation
 import com.master.sr.theme.AppTheme
-import com.master.sr.util.TwUtil
+import com.master.sr.util.ToastUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -35,10 +35,10 @@ class RootActivity : ComponentActivity() {
 
                     override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                         if (never) {
-                            TwUtil.short(R.string.permit_yourself)
+                            ToastUtil.short(R.string.permit_yourself)
                             XXPermissions.startPermissionActivity(this@RootActivity, permissions)
                         } else {
-                            TwUtil.short(R.string.permit_refuse)
+                            ToastUtil.short(R.string.permit_refuse)
                         }
                     }
                 })
@@ -54,7 +54,7 @@ class RootActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 Surface {
-                    RootNav()
+                    RootNavigation()
                 }
             }
         }

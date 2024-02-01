@@ -1,4 +1,4 @@
-package com.master.sr.view
+package com.master.sr.feature.menu
 
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
@@ -27,18 +27,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.master.sr.R
-import com.master.sr.vm.MenuVM
+import com.master.sr.theme.AppTheme
+import com.master.sr.view.HeadText
+import com.master.sr.view.HtmlText
+import com.master.sr.view.ImgBtn
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MenuSC(
+fun MenuScreen(
     navigateBack: (Boolean) -> Unit
 ) {
-    val vm: MenuVM = viewModel()
+    val vm: MenuViewModel = viewModel()
     val uiState by vm.uiState.collectAsStateWithLifecycle()
 
     BackHandler {
@@ -138,5 +142,15 @@ fun MenuItem(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun MenuScreenPreview() {
+    AppTheme {
+        MenuScreen(
+            navigateBack = {}
+        )
     }
 }
