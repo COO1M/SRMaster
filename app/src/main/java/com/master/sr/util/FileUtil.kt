@@ -65,7 +65,7 @@ object FileUtil {
         }
         val uri = resolver.insert(collection, details)
         if (uri != null) {
-            resolver.openOutputStream(uri).use {
+            resolver.openOutputStream(uri)?.use {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
             }
         }
